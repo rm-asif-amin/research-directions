@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Research Directions</title>
+  <meta name="description" content="Research directions in robot learning under altered physics: zero-gravity training, space manipulation and spatially grounded vision-language-action models.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Castoro&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/style.css?v=1">
+  <link rel="stylesheet" href="static/css/ideas.css?v=1">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='16' r='5' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="hero">
+  <div class="container">
+    <h1>Robot learning <span class="accent">beyond Earth&rsquo;s physics</span></h1>
+    <div class="authors"><span><a href="https://scholar.google.com/citations?user=d04IKHkAAAAJ&hl=en" target="_blank" rel="noopener">Asif Amin</a></span></div>
+    <div class="affils"><span>University of California, Riverside</span></div>
+    <div class="links">
+      <a class="btn" href="https://rm-asif-amin.github.io/zerograv-manipulation-site/" target="_blank" rel="noopener">Current project: Learning in Zero Gravity</a>
+      <a class="btn" href="https://scholar.google.com/citations?user=d04IKHkAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+    </div>
+    <div class="tldr">
+      Vision-language-action models (VLAs) learn from data collected under Earth&rsquo;s physics, mostly on a
+      tabletop. I study what happens when that physics changes, and how to use altered physics on purpose:
+      as a source of more diverse training data, as a test of how well VLAs adapt, and as the setting for
+      robots that will one day work in space.
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="arc">
+  <div class="container">
+    <h2>How the ideas fit together</h2>
+    <div class="arc">
+      <div class="col"><div class="h">The problem</div><p>VLAs break under altered physics, and altered physics can also help train them.</p><div class="chips"><a href="#zero-g">1</a><a href="#earth-to-space">2</a></div></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="col"><div class="h">Methods</div><p>Correcting failures without a teacher, and grounding language in metric 3D space.</p><div class="chips"><a href="#corrector">3</a><a href="#metric">4</a></div></div>
+      <div class="arrow" aria-hidden="true"></div>
+      <div class="col"><div class="h">The vision</div><p>A generalist VLA for manipulation in space.</p><div class="chips"><a href="#space-vla">5</a></div></div>
+    </div>
+    <p class="arc-note">Ideas 6&ndash;10 are earlier-stage directions that support this arc: curricula, efficiency,
+      world models, imagination and environment generation.</p>
+    <nav class="toc ideas-toc" aria-label="Ideas"><a href="#zero-g">1. Zero-gravity training for better performance on Earth</a><a href="#earth-to-space">2. Adapting Earth-trained VLAs to microgravity</a><a href="#corrector">3. A corrector VLA</a><a href="#metric">4. Metric language grounding inside containment volumes</a><a href="#space-vla">5. A generalist VLA for space manipulation</a><a href="#curriculum">6. Physics curricula</a><a href="#energy">7. Energy-aware action trajectories</a><a href="#minigames">8. World-model “zero-g minigames” for VLA practice</a><a href="#imagineact">9. ImagineAct</a><a href="#vlm-judge">10. VLMs as judges of agent-generated environments</a></nav>
+  </div>
+</section>
+
+<section id="zero-g">
+  <div class="container">
+    <p class="rq">Idea 1</p>
+    <h3 class="idea-title">Zero-gravity training for better performance on Earth <span class="badge real">in progress</span></h3>
+    <p class="idea-line">Train robot experts with gravity switched off until they touch the object, then distill their spatially diverse demonstrations into VLAs to improve ordinary, Earth-gravity manipulation. <a href="https://rm-asif-amin.github.io/zerograv-manipulation-site/" target="_blank" rel="noopener">Project page</a>.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Zero-G RL experts</div><div class="d">objects float until touched; gravity then switches on</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Diverse demonstrations</div><div class="d">reaching, grasping and pushing throughout 3D space</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">VLA distillation</div><div class="d">fine-tune a VLA (π0.5) on the demonstrations</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Earth-gravity tests</div><div class="d">spatially harder versions of the same tasks</div></div></div>
+    <p class="flow-note">Compared against fixed and adaptive gravity randomization (OpenAI-style ADR) at the same cost.</p>
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Domain randomization varies physics as a robustness perturbation, around Earth gravity (<a href="https://arxiv.org/abs/1910.07113" target="_blank" rel="noopener">OpenAI et al., 2019</a>).</p></div>
+      <div><h4>What would be new</h4><p>Gravity as a controllable distribution shift that is used as the main training regime, not as a perturbation. Preliminary results: at heights only the zero-gravity experts trained on, they reach the object 3.4&times; and grasp it 4.2&times; as often as the best gravity-trained or gravity-randomized expert.</p></div>
+    </div>
+  </div>
+</section>
+<section id="earth-to-space">
+  <div class="container">
+    <p class="rq">Idea 2</p>
+    <h3 class="idea-title">Adapting Earth-trained VLAs to microgravity <span class="badge wip">planned</span></h3>
+    <p class="idea-line">The reverse direction: take a VLA trained on Earth-gravity data and make it work when the physics changes, as in orbit.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Earth-trained VLA</div><div class="d">pretrained, terrestrial data</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Microgravity tasks</div><div class="d">same scenes, different dynamics</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Adaptation</div><div class="d">few-shot fine-tuning, dynamics-aware conditioning</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Altered-gravity evaluation</div><div class="d">measure what breaks and what transfers</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Space-domain work has so far adapted models to visual or task shift under Earth-like dynamics: OpenVLA fine-tuned for in-orbit inspection (<a href="https://arxiv.org/abs/2501.07802" target="_blank" rel="noopener">VLMs as Operator Agents in the Space Domain, 2025</a>); lunar autonomy with a fine-tuned vision-language agent and lighting adaptation (<a href="https://doi.org/10.3390/astronautics1030015" target="_blank" rel="noopener">SELENE</a>).</p></div>
+      <div><h4>What would be new</h4><p>A <b>dynamics</b> shift rather than a visual one, with VLA manipulation actually evaluated under altered gravity.</p></div>
+    </div>
+  </div>
+</section>
+<section id="corrector">
+  <div class="container">
+    <p class="rq">Idea 3</p>
+    <h3 class="idea-title">A corrector VLA: actor and critic co-trained <span class="badge wip">proposed</span></h3>
+    <p class="idea-line">A second VLA watches the first one act and corrects it, either in language (&ldquo;move left&rdquo;) or directly in embedding space. The two are trained together.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Actor VLA</div><div class="d">proposes an action chunk</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Corrector VLA</div><div class="d">sees the observation and the proposed chunk</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Correction</div><div class="d">language (&ldquo;lower, then left&rdquo;) or an embedding-level adjustment</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Corrected action</div><div class="d">executed; outcomes train both models</div></div></div><div class="loop"><span>&#8634; outcomes feed back into both models</span></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Adversarial imitation trains a discriminator against the policy (<a href="https://arxiv.org/abs/1606.03476" target="_blank" rel="noopener">GAIL</a>, <a href="https://arxiv.org/abs/1809.02925" target="_blank" rel="noopener">DAC</a>). Language corrections from <i>humans</i> steer policies at run time (<a href="https://arxiv.org/abs/2301.02555" target="_blank" rel="noopener">&ldquo;No, to the Right&rdquo;</a>; <a href="https://correctvla.github.io/" target="_blank" rel="noopener">CorrectVLA</a>), and an expert teacher can distill into a VLA on-policy (<a href="https://arxiv.org/abs/2603.26666" target="_blank" rel="noopener">VLA-OPD</a>).</p></div>
+      <div><h4>What would be new</h4><p>A co-trained <i>peer</i> that fixes failures from out-of-distribution physics, where no human or ground-truth teacher is available. Zero gravity is the driving case.</p></div>
+    </div>
+  </div>
+</section>
+<section id="metric">
+  <div class="container">
+    <p class="rq">Idea 4</p>
+    <h3 class="idea-title">Metric language grounding inside containment volumes <span class="badge wip">proposed</span></h3>
+    <p class="idea-line">Train VLAs on commands with real units and 3D references, such as &ldquo;move 2 inches left&rdquo; or &ldquo;go to the top-right front corner of the box&rdquo;, to sharpen their spatial ability.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Containment volume</div><div class="d">a known 3D frame around the workspace</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Metric commands</div><div class="d">distances, directions and volume-relative positions</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Auto-labeled demonstrations</div><div class="d">labels computed from end-effector motion</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Metric-supervised VLA</div><div class="d">tested on ordinary, non-metric spatial tasks</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Direction-only language motions (<a href="https://arxiv.org/abs/2403.01823" target="_blank" rel="noopener">RT-H</a>); metric spatial reasoning in vision-language models rather than action models (<a href="https://arxiv.org/abs/2401.12168" target="_blank" rel="noopener">SpatialVLM</a>, <a href="https://arxiv.org/abs/2512.13660" target="_blank" rel="noopener">RoboTracer</a>); language-to-slot placement through a rendered visual goal (<a href="https://arxiv.org/abs/2604.10432" target="_blank" rel="noopener">AnySlot</a>).</p></div>
+      <div><h4>What would be new</h4><p>End-to-end metric supervision of the action model, tested for transfer to non-metric tasks, plus references relative to a 3D volume. Without a table or a &ldquo;down&rdquo;, volume-relative metric commands are how you would instruct a robot in space.</p></div>
+    </div>
+  </div>
+</section>
+<section id="space-vla">
+  <div class="container">
+    <p class="rq">Idea 5</p>
+    <h3 class="idea-title">A generalist VLA for space manipulation <span class="badge wip">long-term vision</span></h3>
+    <p class="idea-line">A pretrained, multi-task VLA for manipulation in space: a &ldquo;π0.5 for space&rdquo;.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Space-manipulation dataset</div><div class="d">simulation plus analog hardware</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Benchmark</div><div class="d">tasks &times; gravity &times; lighting</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Multi-task pretraining</div><div class="d">one model across tasks and conditions</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Space operations</div><div class="d">servicing, assembly, sampling</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Existing space work fine-tunes for single tasks (<a href="https://arxiv.org/abs/2501.07802" target="_blank" rel="noopener">VLMs as Operator Agents in the Space Domain, 2025</a>; <a href="https://doi.org/10.3390/astronautics1030015" target="_blank" rel="noopener">SELENE</a>).</p></div>
+      <div><h4>What would be new</h4><p>To my knowledge no generalist exists yet. The bottleneck is data, so a space-manipulation dataset and benchmark is the most valuable first step.</p></div>
+    </div>
+  </div>
+</section>
+<section class="divider"><div class="container"><h2>Further directions</h2>
+  <p class="center muted">Earlier-stage ideas. Each one connects to the arc above.</p></div></section>
+
+<section id="curriculum">
+  <div class="container">
+    <p class="rq">Idea 6</p>
+    <h3 class="idea-title">Physics curricula <span class="badge wip">early idea</span></h3>
+    <p class="idea-line">Schedule the physics itself during training: start where exploration is easy (zero gravity, low friction) and move toward the target physics as the policy improves.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Zero gravity</div><div class="d">easy exploration of 3D space</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Reduced gravity</div><div class="d">partial support</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Earth gravity</div><div class="d">the target task</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Varied friction and mass</div><div class="d">robustness at the end</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Automatic domain randomization widens physics ranges as performance improves (<a href="https://arxiv.org/abs/1910.07113" target="_blank" rel="noopener">OpenAI et al., 2019</a>).</p></div>
+      <div><h4>What would be new</h4><p>Ordering physics regimes by how much they help exploration, rather than widening one range around Earth values.</p></div>
+    </div>
+  </div>
+</section>
+<section id="energy">
+  <div class="container">
+    <p class="rq">Idea 7</p>
+    <h3 class="idea-title">Energy-aware action trajectories <span class="badge wip">early idea</span></h3>
+    <p class="idea-line">Train VLAs to avoid redundant motion: score demonstrations and action chunks by energy and wasted movement, and prefer efficient ones.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Demonstrations</div><div class="d">from experts or teleoperation</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Efficiency scoring</div><div class="d">joint work, jerk, path length, idle motion</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Filtering and regularization</div><div class="d">keep or up-weight efficient behavior</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Efficient VLA</div><div class="d">smoother, faster, lower-power execution</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Smoothness and energy terms are common in RL reward shaping and trajectory optimization, while VLA training data is usually left unfiltered for efficiency.</p></div>
+      <div><h4>What would be new</h4><p>Efficiency as a data-quality axis for VLA training, which matters most where power is scarce, as in space.</p></div>
+    </div>
+  </div>
+</section>
+<section id="minigames">
+  <div class="container">
+    <p class="rq">Idea 8</p>
+    <h3 class="idea-title">World-model &ldquo;zero-g minigames&rdquo; for VLA practice <span class="badge wip">early idea</span></h3>
+    <p class="idea-line">Learn a world model of zero-gravity dynamics, then let VLAs practice short, game-like tasks inside it.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">World model</div><div class="d">learned zero-gravity dynamics</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Minigames</div><div class="d">catch, stabilize, push to a target</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Practice in imagination</div><div class="d">cheap rollouts for the VLA</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Transfer</div><div class="d">to simulation, then hardware</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Agents trained inside learned world models (<a href="https://arxiv.org/abs/2301.04104" target="_blank" rel="noopener">DreamerV3</a>); learned interactive simulators (<a href="https://arxiv.org/abs/2310.06114" target="_blank" rel="noopener">UniSim</a>, <a href="https://arxiv.org/abs/2402.15391" target="_blank" rel="noopener">Genie</a>).</p></div>
+      <div><h4>What would be new</h4><p>Targeted, game-like curricula for an unfamiliar physics regime, where real data is hardest to get.</p></div>
+    </div>
+  </div>
+</section>
+<section id="imagineact">
+  <div class="container">
+    <p class="rq">Idea 9</p>
+    <h3 class="idea-title">ImagineAct: visualize before acting <span class="badge wip">early idea</span></h3>
+    <p class="idea-line">A VLA that first imagines the outcome, as a predicted image or subgoal, and then acts toward it.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Instruction and observation</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Imagine</div><div class="d">predict a future frame or subgoal image</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">Act</div><div class="d">action chunk conditioned on the imagined goal</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Check</div><div class="d">compare imagination with what happened</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Goal-image generation for control (<a href="https://arxiv.org/abs/2310.10639" target="_blank" rel="noopener">SuSIE</a>); video prediction as a policy (<a href="https://arxiv.org/abs/2302.00111" target="_blank" rel="noopener">UniPi</a>); video-pretrained manipulation policies (<a href="https://arxiv.org/abs/2312.13139" target="_blank" rel="noopener">GR-1</a>).</p></div>
+      <div><h4>What would be new</h4><p>Using the gap between imagination and outcome as a signal, for example to detect when the physics differs from what the model expects.</p></div>
+    </div>
+  </div>
+</section>
+<section id="vlm-judge">
+  <div class="container">
+    <p class="rq">Idea 10</p>
+    <h3 class="idea-title">VLMs as judges of agent-generated environments <span class="badge wip">early idea</span></h3>
+    <p class="idea-line">Let language-model agents generate simulation environments and tasks, and use a vision-language model to judge which ones are valid, solvable and useful.</p>
+    <div class="flow" role="img"><div class="step first"><div class="k">1</div><div class="t">Agent-generated environments</div><div class="d">scenes and tasks written as code</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">2</div><div class="t">Rendered rollouts</div><div class="d">what the environment actually does</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">3</div><div class="t">VLM judge</div><div class="d">physically valid? solvable? diverse?</div></div><div class="arrow" aria-hidden="true"></div><div class="step"><div class="k">4</div><div class="t">Curated library</div><div class="d">training environments for VLAs</div></div></div>
+    
+    <div class="pn">
+      <div><h4>Prior work</h4><p>Generative simulation and task generation (<a href="https://arxiv.org/abs/2311.01455" target="_blank" rel="noopener">RoboGen</a>, <a href="https://arxiv.org/abs/2310.01361" target="_blank" rel="noopener">GenSim</a>); LLM-written reward code (<a href="https://arxiv.org/abs/2310.12931" target="_blank" rel="noopener">Eureka</a>).</p></div>
+      <div><h4>What would be new</h4><p>Visual verification of generated environments, catching the physics and geometry bugs that text-only checks miss.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+<footer><div class="container">Asif Amin &middot; University of California, Riverside &middot;
+  <a href="https://scholar.google.com/citations?user=d04IKHkAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a></div></footer>
+</body>
+</html>
