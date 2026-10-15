@@ -49,3 +49,22 @@ section.divider { padding-bottom: 0; }
   .pn { grid-template-columns: 1fr; }
   .hero h1 { font-size: 30px; }
 }
+
+/* >>> drawings (2026-10-14) >>> */
+.flow .step .art { display: block; width: 100%; height: auto; max-height: 96px; margin: 0 0 6px; background: #fff; border-radius: 8px; }
+.flow .step.first .art { background: #fff; }
+.schematic { text-align: center; font-size: 13px; color: var(--muted); margin: 6px 0 0; }
+.sim-line { font-size: 15px; margin: -8px 0 16px; padding: 8px 12px; background: var(--accent-soft); border-radius: 8px; }
+.sim-line b { color: var(--accent); }
+.hero .ideas-toc { margin-top: 22px; }
+@media (max-width: 720px) { .flow .step .art { max-height: 120px; } }
+/* <<< drawings <<< */
+.affils.contact { margin-top: 4px; font-size: 15px; }
+.affils.role { margin-top: 4px; font-size: 15px; color: #26303a; }
+/* >>> restructure (2026-10-14) >>> */
+.exp-line { font-size: 15px; margin: -8px 0 16px; padding: 8px 12px; background: #fff7e6; border-left: 3px solid #e0a63a; border-radius: 0 8px 8px 0; }
+.exp-line b { color: #9a6200; }
+.space-head { background: #f6f7f9; }
+.space-intro { max-width: 780px; margin: 0 auto 6px; text-align: center; font-size: 16px; color: #39414a; }
+/* <<< restructure <<< */
+.mech-line { background: #eef6ff; border-left-color: #2a78d6; } .mech-line b { color: #1b5aa6; }
