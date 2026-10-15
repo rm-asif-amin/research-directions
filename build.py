@@ -279,7 +279,7 @@ page = f'''<!DOCTYPE html>
     <h1>Extracting <span class="accent">richer</span> robot experience from simulation</h1>
     <div class="authors"><span><a href="{SCHOLAR}" target="_blank" rel="noopener">Asif Amin</a></span></div>
     <div class="affils"><span>University of California, Riverside</span></div>
-    <div class="affils role"><b>PhD applicant</b> &middot; also open to research positions, available immediately</div>
+    <div class="affils role"><b>Seeking doctoral and pre-doctoral research positions</b> &middot; available immediately</div>
     <div class="affils contact"><a href="mailto:ramin019@ucr.edu">ramin019@ucr.edu</a></div>
     <div class="links">
       <a class="btn" href="{PROJECT}" target="_blank" rel="noopener">Current project: Learning in Zero Gravity</a>
