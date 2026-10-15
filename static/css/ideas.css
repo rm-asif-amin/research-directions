@@ -68,3 +68,8 @@ section.divider { padding-bottom: 0; }
 .space-intro { max-width: 780px; margin: 0 auto 6px; text-align: center; font-size: 16px; color: #39414a; }
 /* <<< restructure <<< */
 .mech-line { background: #eef6ff; border-left-color: #2a78d6; } .mech-line b { color: #1b5aa6; }
+/* >>> section anchor (2026-10-14) >>> */
+h2 .anchor { font-size: .6em; vertical-align: middle; margin-left: 6px; color: #b5bcc4; text-decoration: none; }
+h2 .anchor:hover { color: var(--accent); }
+#space { scroll-margin-top: 12px; }
+/* <<< section anchor <<< */

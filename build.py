@@ -208,7 +208,11 @@ IDEAS = [
                f"episodes for lab inspection of satellite hardware "
                f"({ref('Carrasco et al., 2025', 'https://arxiv.org/abs/2501.07802')}); a VLA adapted from 100 "
                f"demonstrations on a lunar robot prototype "
-               f"({ref('SELENE, Tsinghua, 2026', 'https://doi.org/10.3390/astronautics1030015')}).",
+               f"({ref('SELENE, Tsinghua, 2026', 'https://doi.org/10.3390/astronautics1030015')}). Steps toward a space "
+               f"foundation model: a VLM adapted to extraterrestrial imagery, which reasons about images but does not "
+               f"output actions ({ref('Space-LLaVA, Stanford, 2024', 'https://arxiv.org/abs/2408.05924')}), and "
+               f"natural-language commands turned into constraint-satisfying spacecraft trajectories, also tested on a "
+               f"free-flying robot platform ({ref('SAGES, Stanford, 2025', 'https://arxiv.org/abs/2512.09111')}).",
          novel="To my knowledge no generalist exists yet. The bottleneck is data, so a space-manipulation dataset "
                "and benchmark is the most valuable first step, with the workspace world models of idea 7 as one "
                "source of that data."),
@@ -266,7 +270,7 @@ page = f'''<!DOCTYPE html>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Castoro&family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/css/style.css?v=2">
-  <link rel="stylesheet" href="static/css/ideas.css?v=4">
+  <link rel="stylesheet" href="static/css/ideas.css?v=5">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%232a78d6'/%3E%3Ccircle cx='16' cy='16' r='5' fill='white'/%3E%3C/svg%3E">
 </head>
 <body>
@@ -300,11 +304,12 @@ page = f'''<!DOCTYPE html>
 
 <main>
 {"".join(idea_html(x) for x in core)}
-<section id="space" class="divider space-head"><div class="container"><h2>Space applications</h2>
-  <p class="space-intro">Robots for space are the extreme case of learning from simulation: real data in orbit is
-    almost nonexistent, so simulation with altered physics is where their experience has to come from. These
-    directions carry the space&ndash;Earth symbiosis the other way, from Earth-trained models to robots that work in
-    space.</p></div></section>
+<section id="space" class="divider space-head"><div class="container"><h2>Space applications <a class="anchor" href="#space" title="Link to this section" aria-label="Link to this section">#</a></h2>
+  <p class="space-intro">These directions build on my current work, which trains robots under zero gravity in simulation
+    to make them better on Earth (<a href="#zero-g">Idea 1</a>; <a href="{PROJECT}" target="_blank" rel="noopener">project
+    page</a>). The same idea runs the other way. Robots for space are the extreme case of learning from simulation: real
+    data from orbit or the Moon is almost nonexistent, so simulators with altered physics are where their experience has
+    to come from, starting from models trained on Earth.</p></div></section>
 {"".join(idea_html(x) for x in space)}
 </main>
 <footer><div class="container">Asif Amin &middot; University of California, Riverside &middot;
