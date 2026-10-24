@@ -269,3 +269,23 @@ ART.update({
 
 def svg(key):
     return f'<svg class="art" viewBox="0 0 160 90" role="img" aria-hidden="true">{ART[key]()}</svg>'
+
+
+# >>> metric-grounding cards (2026-10-23) >>>
+def target(x, y, r=7):
+    return (f'<circle cx="{x}" cy="{y}" r="{r}" fill="none" stroke="{GREEN}" stroke-width="2" stroke-dasharray="3 2"/>'
+            f'<path d="M{x - 3} {y} h6 M{x} {y - 3} v6" stroke="{GREEN}" stroke-width="1.6"/>')
+
+
+ART.update({
+    "scripted_label": lambda: table() + arm((22, 80), (36, 32), (70, 40))
+    + f'<path d="M74 40 L118 24" stroke="{BLUE}" stroke-width="2" stroke-dasharray="4 3"/>'
+    + f'<path d="M112 22 l7 2 l-5 5" fill="none" stroke="{BLUE}" stroke-width="2"/>'
+    + label(108, 54, "5 cm", 10.5, BLUE, 700),
+    "iss_float": lambda: module(10, 18, 140, 56) + cube(96, 40, 13, RED, 22),
+    "space_metric_cmd": lambda: bubble(8, 6, 144, 30, "“10 cm in front of the rack”", 10.5) + module(30, 52, 100, 32),
+    "goal_episode": lambda: module(10, 18, 140, 56) + cube(52, 50, 10, RED, 20) + target(112, 36)
+    + f'<path d="M58 46 L104 38" stroke="{GRAY}" stroke-width="1.6" stroke-dasharray="3 3"/>',
+    "placed_check": lambda: module(10, 18, 140, 56) + cube(112, 36, 10, RED, 0) + target(112, 36, 10) + check(52, 50, 1.3),
+})
+# <<< metric-grounding cards <<<

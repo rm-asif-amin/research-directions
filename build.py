@@ -42,26 +42,32 @@ IDEAS = [
                f"({ref('OpenAI et al., 2019', 'https://arxiv.org/abs/1910.07113')}).",
          novel="Gravity as a controllable distribution shift that is used as the main training regime, not as a "
                "perturbation. Preliminary results: at heights only the zero-gravity experts trained on, they reach the "
-               "object 3.4&times; and grasp it 4.2&times; as often as the best gravity-trained or gravity-randomized "
-               "expert."),
-    dict(n=2, group="main", id="metric", title="Metric language grounding inside containment volumes",
+               "object 2.4&times; and grasp or move it 2.4&times; as often as the best gravity-trained or "
+               "gravity-randomized expert."),
+    dict(n=2, group="main", id="metric", title="Metric language grounding for VLAs",
          status=("proposed", "wip"),
-         art=['volume', 'metric_cmd', 'auto_label', 'metric_vla'],
+         art=['volume', 'metric_cmd', 'scripted_label', 'metric_vla'],
          sim="The simulator knows exact positions, so metric language labels come for free from its state.",
-         idea="Train VLAs on commands with real units and 3D references, such as &ldquo;move 2 inches left&rdquo; "
-              "or &ldquo;go to the top-right front corner of the box&rdquo;, to sharpen their spatial ability.",
-         flow=[("Containment volume", "a known 3D frame around the workspace"),
-               ("Metric commands", "distances, directions and volume-relative positions"),
-               ("Auto-labeled demonstrations", "labels computed from end-effector motion"),
+         idea="Train VLAs on commands with real units and 3D references, such as &ldquo;move 2 inches left&rdquo;, "
+              "&ldquo;lift it 3 cm, then carry it 5 cm right&rdquo; or &ldquo;go to the top-right front corner of the "
+              "workspace&rdquo;, to sharpen their spatial ability.",
+         flow=[("Workspace frame", "a virtual 3D box around the workspace"),
+               ("Metric commands", "distances, directions, angles and workspace-relative positions"),
+               ("Labels that match the motion", "scripted moves in simulation, labeled from its state"),
                ("Metric-supervised VLA", "tested on ordinary, non-metric spatial tasks")],
-         prior=f"Direction-only language motions ({ref('RT-H', 'https://arxiv.org/abs/2403.01823')}); metric "
-               f"spatial reasoning in vision-language models rather than action models "
+         prior=f"Language that describes the robot&rsquo;s motion by direction only, auto-extracted from demonstrations "
+               f"({ref('RT-H', 'https://arxiv.org/abs/2403.01823')}, "
+               f"{ref('LA4VLA', 'https://arxiv.org/abs/2606.27295')}); metric language as a navigation VLA&rsquo;s "
+               f"output, such as &ldquo;moving forward 75cm&rdquo; ({ref('NaVILA', 'https://arxiv.org/abs/2412.04453')}); "
+               f"metric supervision of manipulation VLAs without language "
+               f"({ref('Acting in Meters', 'https://arxiv.org/abs/2609.18243')}); metric spatial reasoning in "
+               f"vision-language models rather than action models "
                f"({ref('SpatialVLM', 'https://arxiv.org/abs/2401.12168')}, "
-               f"{ref('RoboTracer', 'https://arxiv.org/abs/2512.13660')}); language-to-slot placement through a "
-               f"rendered visual goal ({ref('AnySlot', 'https://arxiv.org/abs/2604.10432')}).",
-         novel="End-to-end metric supervision of the action model, tested for transfer to non-metric tasks, plus "
-               "references relative to a 3D volume. Without a table or a &ldquo;down&rdquo;, volume-relative "
-               "metric commands are how you would instruct a robot in space."),
+               f"{ref('RoboTracer', 'https://arxiv.org/abs/2512.13660')}).",
+         novel="To my knowledge, no manipulation VLA has yet been trained end to end to execute metric and "
+               "workspace-relative commands; the real test is transfer to ordinary, non-metric spatial tasks. "
+               "My pilot on existing expert rollouts found the labels exact (within the 1 cm rounding) but expert "
+               "motion too fast and curved to label after the fact, so the data comes from scripted moves."),
     dict(n=3, group="main", id="minigames", title="World-model minigames for agile skills",
          status=("early idea", "wip"),
          art=['world_model', 'minigame', 'imagined_practice', 'transfer'],
@@ -168,7 +174,24 @@ IDEAS = [
                f"({ref('SELENE, Tsinghua, 2026', 'https://doi.org/10.3390/astronautics1030015')}).",
          novel="A <b>dynamics</b> shift rather than a visual one, with VLA manipulation actually evaluated under "
                "altered gravity."),
-    dict(n=7, group="space", id="space-world-model", title="World models of the ISS and lunar workspaces",
+    dict(n=7, group="space", id="space-metric", title="Metric object placement in microgravity",
+         status=("proposed", "wip"),
+         art=['iss_float', 'space_metric_cmd', 'goal_episode', 'placed_check'],
+         sim="In simulated microgravity any point in reach is a valid goal, and the outcome can be checked exactly.",
+         idea="Teach VLAs to move floating objects by metric, scene-relative commands, such as &ldquo;put the tape "
+              "10 cm in front of the rack and let go&rdquo; or &ldquo;3 cm up and right, then 5 cm down&rdquo;. On Earth "
+              "a released object falls unless something holds it; in orbit it stays where it is put.",
+         flow=[("Floating objects", "a station workspace, gravity off throughout"),
+               ("Scene-relative commands", "distances and directions relative to racks and surfaces"),
+               ("Goal-defined episodes", "the command fixes the target point; labels match by construction"),
+               ("Exact placement check", "the object rests within about 1 cm of the target")],
+         prior=f"Learned controllers for space robots so far handle free-flyer motion and docking rather than "
+               f"object placement "
+               f"({ref('APIARY', 'https://arxiv.org/abs/2512.03729')}, "
+               f"{ref('Int-Ball2', 'https://arxiv.org/abs/2512.13514')}).",
+         novel="A placement skill that only microgravity allows, with a precise, automatically checkable outcome, "
+               "and the space counterpart of idea 2."),
+    dict(n=8, group="space", id="space-world-model", title="World models of the ISS and lunar workspaces",
          status=("proposed", "wip"),
          art=['space_footage', 'action_labels', 'space_wm', 'space_practice'],
          sim="Turn existing footage of space workspaces into an interactive practice environment, where building a "
@@ -195,7 +218,7 @@ IDEAS = [
                "manipulation, or is learned from real footage. ISS footage is plentiful but carries no robot actions; "
                "a world model built from it would give a generalist space VLA visually realistic practice that no "
                "hand-built simulator offers."),
-    dict(n=8, group="space", id="space-vla", title="A generalist VLA for space manipulation",
+    dict(n=9, group="space", id="space-vla", title="A generalist VLA for space manipulation",
          status=("long-term vision", "wip"),
          art=['space_data', 'benchmark', 'pretrain', 'space_ops'],
          sim="Build the space-manipulation dataset and benchmark from simulators with altered physics and lighting.",
@@ -214,7 +237,7 @@ IDEAS = [
                f"natural-language commands turned into constraint-satisfying spacecraft trajectories, also tested on a "
                f"free-flying robot platform ({ref('SAGES, Stanford, 2025', 'https://arxiv.org/abs/2512.09111')}).",
          novel="To my knowledge no generalist exists yet. The bottleneck is data, so a space-manipulation dataset "
-               "and benchmark is the most valuable first step, with the workspace world models of idea 7 as one "
+               "and benchmark is the most valuable first step, with the workspace world models of idea 8 as one "
                "source of that data."),
 ]
 
